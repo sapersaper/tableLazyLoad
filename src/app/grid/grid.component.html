@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-3">
+                <input #searchTerm type="text" class="form-control" placeholder="search">
+            </div>
+            <div class="col-md-3">
+                <input #from type="text" class="form-control" placeholder="from">
+            </div>
+            <div class="col-md-3">
+                <input #count type="text" class="form-control" placeholder="count of items">
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-default" type="button" (click)="getSearch()">Search</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9">
+            <div *ngIf="recordingSearchLength">total Items Availables: {{recordingSearchLength}} - in memory {{recordingSearchResults.length}}</div>
+            <custom-table [data]="recordingSearchResults" [searchTerm]="searchTerm.value" tableFixed lazy-load>Loading...</custom-table>
+        </div>
+        <div class="col-md-3">
+            <tracer [data]="inSearch" [length]="recordingSearchResults.length">Loading...</tracer>
+        </div>
+    </div>

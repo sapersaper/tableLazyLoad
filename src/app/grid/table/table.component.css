@@ -1,0 +1,36 @@
+:host {
+    height: 380px;
+    display: block;
+    overflow: auto;
+}
+
+th,
+td {
+    min-width: 200px;
+}
+
+th:nth-child(1),
+td:nth-child(1) {
+    width: 40px;
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+    width: 100px;
+}
+
+
+/*lazy load*/
+
+
+/*.table-lazy-load {
+    display: block;
+}*/
+
+.table-lazy-load tbody tr:not(.shown) {
+    display: none;
+}
+
+.table-lazy-load tbody tr.invisible {
+    visibility: hidden;
+}

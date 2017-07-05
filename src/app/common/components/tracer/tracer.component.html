@@ -1,0 +1,6 @@
+<div *ngFor="let time of times">
+    length of service: {{time.length}}
+    <br>Last updated: <b>{{time.amTimeAgo | amTimeAgo}}</b>
+    <br>start at: <b>{{time.startAt}}</b> - end at: <b>{{time.endAt}}</b>
+    <br>difference: <b>{{time.difference}}</b>
+</div>

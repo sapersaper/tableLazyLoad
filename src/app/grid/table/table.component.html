@@ -1,0 +1,31 @@
+<!--<div tableFixed>-->
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Type</th>
+            <th>Title</th>
+            <th>Original Release</th>
+            <th>Edition Release</th>
+            <th>Cover Art</th>
+            <th>Director</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let result of data; let i = index">
+            <td>{{i + 1}}</td>
+            <td>{{result.type}}</td>
+            <td>
+                <div class="ellipsis-multiline">
+                    <p>{{result.name}}</p>
+                </div>
+            </td>
+            <td>{{result.originalRelease}}</td>
+            <td>{{result.latestRelease}}</td>
+            <td>Cover Art</td>
+            <td>-</td>
+        </tr>
+
+    </tbody>
+</table>
+<!--</div>-->
