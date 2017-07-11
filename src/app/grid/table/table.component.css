@@ -2,6 +2,7 @@
     height: 380px;
     display: block;
     overflow: auto;
+    position: relative;
 }
 
 th,
@@ -18,14 +19,6 @@ th:nth-child(2),
 td:nth-child(2) {
     width: 100px;
 }
-
-
-/*lazy load*/
-
-
-/*.table-lazy-load {
-    display: block;
-}*/
 
 .table-lazy-load tbody tr:not(.shown) {
     display: none;

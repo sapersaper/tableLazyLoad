@@ -33,16 +33,6 @@ export class GetSearchService {
     return Array.prototype.slice.call(htmlElem);
   }
 
-  backup() {
-    let trs = this.castArray(document.querySelectorAll('tbody tr'));
-    trs.forEach((tr, i) => { if (i > 200) tr.style.display = "none"; });
-    trs.forEach((tr, i) => { if (i < 100 && i > 0) tr.style.display = "none"; })
-
-    trs[0].removeAttribute('height')
-    trs[0].style.visibility = 'hidden';
-    trs[0].setAttribute('height', trs[0].clientHeight * 100 + '')
-  }
-
   private totalResults;
 
   makeResult(res, offset, limit) {
@@ -52,7 +42,7 @@ export class GetSearchService {
     this.totalResults = this.totalResults || [];
 
     if (this.isChangeSearch() && res.result.length > 0) {
-      let totalRes = new Array(res.total_results_available - res.result.length).fill({});
+      let totalRes = new Array(res.total_results_available - res.result.length -1).fill({});
       res.result = res.result.concat(totalRes);
       this.totalResults = res.result;
       return res;

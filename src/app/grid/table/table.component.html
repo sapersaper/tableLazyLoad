@@ -14,14 +14,14 @@
     <tbody>
         <tr *ngFor="let result of data; let i = index">
             <td>{{i + 1}}</td>
-            <td>{{result.type}}</td>
+            <td>{{result?.type}}</td>
             <td>
                 <div class="ellipsis-multiline">
-                    <p>{{result.name}}</p>
+                    <p>{{result?.name}}</p>
                 </div>
             </td>
-            <td>{{result.originalRelease}}</td>
-            <td>{{result.latestRelease}}</td>
+            <td>{{result?.originalRelease}}</td>
+            <td>{{result?.latestRelease}}</td>
             <td>Cover Art</td>
             <td>-</td>
         </tr>

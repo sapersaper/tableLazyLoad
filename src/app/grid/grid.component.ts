@@ -22,11 +22,19 @@ export class GridComponent implements OnInit {
 
   constructor(private getSearchService: GetSearchService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    // this.startSearch(this.from.nativeElement.value, this.count.nativeElement.value)
+  }
 
   getSearch() {
+    this.startSearch(this.from.nativeElement.value, this.count.nativeElement.value)
+  }
+
+
+
+  startSearch(offset, limit) {
     this.inSearch = true;
-    this.getSearchService.getSearch(this.searchTerm.nativeElement.value, this.from.nativeElement.value, this.count.nativeElement.value )
+    this.getSearchService.getSearch(this.searchTerm.nativeElement.value, offset, limit )
       .subscribe( 
         (search: any) => {
           this.inSearch = false;
@@ -37,9 +45,12 @@ export class GridComponent implements OnInit {
           this.inSearch = false;
           console.log(err);
         });
+}
 
-  // this.getSearchService.getSearch(this.searchTerm.nativeElement.value, this.from.nativeElement.value, this.count.nativeElement.value )
-  }
+getService(params) {
+  console.log(params)
+  this.startSearch(params.offset, params.limit)
+}
 
 
 }
