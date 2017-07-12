@@ -61,8 +61,7 @@ export class GetSearchService {
       .map((res: Response) => {
       return this.makeResult(res.json(), offset, limit);
       })
-      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
-
+      .catch((error: any) => Observable.throw(error.json().error || {message: 'Error Server', offset: offset, limit: limit}));
     return result;
 
   }

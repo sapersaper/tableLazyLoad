@@ -44,7 +44,7 @@ export class LazyLoadDirective implements OnInit, OnChanges {
 
   ngOnChanges() {
     console.log('change last search term: ', this._lastSearchTerm)
-    if(this._lastSearchTerm != '' && this._lastSearchTerm != this.searchTerm) {
+    if (this._lastSearchTerm != '' && this._lastSearchTerm != this.searchTerm) {
       this.tableLazyLoad.scrollTop = 0;
     }
     setTimeout(() => {
@@ -96,13 +96,46 @@ export class LazyLoadDirective implements OnInit, OnChanges {
     }
 
     if (minEnv && maxEnv && minEnv < maxEnv) {
-      this.EmitService.emit({
-        offset: minEnv,
-        limit: maxEnv - minEnv
-      });
+      let offset = minEnv;
+      let count = maxEnv - minEnv;
+
+      if (count == 200) {
+        this.emitService(offset, this.pageSize);
+        offset = offset + this.pageSize
+      }
+      this.emitService(offset, this.pageSize);
     }
 
-  }, 500);
+  }, 0);
+
+  private emitService(offset: number, limit: number) {
+
+    if (!this.serviceIsRegistred({ offset: offset, limit: limit }))
+      this.EmitService.emit({
+        offset: offset,
+        limit: limit
+      });
+
+    this.serviceRegister({
+      offset: offset,
+      limit: limit
+    })
+  }
+
+  private registerOffsets = [{ offset: 0, limit: this.pageSize }];
+
+  private serviceIsRegistred(params) {
+    return this.registerOffsets.filter(p => p.offset == params.offset && p.limit == params.limit).length != 0;
+  }
+
+  private serviceRegister(params) {
+    if (!this.serviceIsRegistred(params))
+      this.registerOffsets.push(params);
+  }
+
+  private serviceDeregister() {
+
+  }
 
   private objectHasntVoid(obj) {
     if (typeof obj === 'undefined') return;
