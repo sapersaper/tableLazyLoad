@@ -1,0 +1,50 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-3">
+                <input #searchTerm type="text" class="form-control" placeholder="search">
+            </div>
+            <div class="col-md-3">
+                <input #from type="text" class="form-control" placeholder="from">
+            </div>
+            <div class="col-md-3">
+                <input #count type="text" class="form-control" placeholder="count of items">
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-default" type="button" (click)="getSearch()">Search</button>
+                <button class="btn btn-default" type="button" (click)="getSearch(true)">Clean</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Type</th>
+                        <th>Title</th>
+                        <th>Original Release</th>
+                        <th>Edition Release</th>
+                        <th>Cover Art</th>
+                        <th>Director</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let result of data; let i = index">
+                        <td>{{i + 1}}</td>
+                        <td>{{result?.type}}</td>
+                        <td>
+                            <div class="ellipsis-multiline">
+                                <p>{{result?.name}}</p>
+                            </div>
+                        </td>
+                        <td>{{result?.originalRelease}}</td>
+                        <td>{{result?.latestRelease}}</td>
+                        <td>Cover Art</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>

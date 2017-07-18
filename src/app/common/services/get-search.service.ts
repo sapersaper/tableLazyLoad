@@ -42,15 +42,13 @@ export class GetSearchService {
     this.totalResults = this.totalResults || [];
 
     if (this.isChangeSearch() && res.result.length > 0) {
-      let totalRes = new Array(res.total_results_available - res.result.length -1).fill({});
-      res.result = res.result.concat(totalRes);
-      this.totalResults = res.result;
-      return res;
+      this.totalResults = [];
     }
 
-    for (let i = offset; i < offset + limit; i++) {
-      this.totalResults.splice(i - 1, 1, res.result[i - offset]);
+    for (let i = offset; i < offset + res.result.length; i++) {
+      this.totalResults[i] = res.result[i - offset];
     }
+    console.log(res.result);
     res.result = this.totalResults.slice(0);
     return res;
   }
@@ -59,9 +57,20 @@ export class GetSearchService {
     let serviceUrl = this.getUrl(search, offset, limit);
     let result = this.http.get(serviceUrl)
       .map((res: Response) => {
-      return this.makeResult(res.json(), offset, limit);
+        return this.makeResult(res.json(), offset, limit);
       })
-      .catch((error: any) => Observable.throw(error.json().error || {message: 'Error Server', offset: offset, limit: limit}));
+      .catch((error: any) => Observable.throw(error.json().error || { message: 'Error Server', offset: offset, limit: limit }));
+    return result;
+
+  }
+
+  getSimpleSearch(search?: string, offset?: string, limit?: string): Observable<any[]> {
+    let serviceUrl = this.getUrl(search, offset, limit);
+    let result = this.http.get(serviceUrl)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || { message: 'Error Server', offset: offset, limit: limit }));
     return result;
 
   }

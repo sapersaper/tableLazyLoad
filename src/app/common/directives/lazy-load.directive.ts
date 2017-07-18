@@ -10,6 +10,7 @@ export class LazyLoadDirective implements OnInit, OnChanges {
   @Input() searchTerm: string;
   @Input() lazyLoadEnviroment: any;
   @Output() EmitService = new EventEmitter();
+  @Output() EmitEnviroment = new EventEmitter();
 
   private tableLazyLoad: HTMLElement;
   private table: HTMLElement;
@@ -20,6 +21,7 @@ export class LazyLoadDirective implements OnInit, OnChanges {
   private _lazyLoadEnviroment: number;
   private _lastSearchTerm: string = '';
   private pageSize: number = 100;
+  private registerOffsets= [];
 
   constructor(private el: ElementRef) { }
 
@@ -43,9 +45,10 @@ export class LazyLoadDirective implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    console.log('change last search term: ', this._lastSearchTerm)
+    // console.log('change last search term: ', this._lastSearchTerm)
     if (this._lastSearchTerm != '' && this._lastSearchTerm != this.searchTerm) {
       this.tableLazyLoad.scrollTop = 0;
+      this.registerOffsets = [{ offset: 0, limit: this.pageSize }];
     }
     setTimeout(() => {
       if (!this.tableLazyLoad) return;
@@ -82,28 +85,14 @@ export class LazyLoadDirective implements OnInit, OnChanges {
     maxEnvT = maxEnvT < this.data.length ? maxEnvT : this.data.length;
 
     let minEnv = Math.floor(minEnvT / this.pageSize) * this.pageSize;
-    let maxEnv = Math.floor(maxEnvT / this.pageSize) * this.pageSize + this.pageSize;
+    let maxEnv = Math.floor(maxEnvT / this.pageSize) * this.pageSize;
 
-    if (maxEnvT == this.data.length)
-      maxEnv = maxEnvT + 1;
-
-    if (this.objectHasntVoid(this.data[minEnv + 2])) {
-      minEnv += this.pageSize;
+    if (!this.objectHasntVoid(this.data[minEnvT])) {
+      this.emitService(minEnv, this.pageSize);
     }
 
-    if (this.objectHasntVoid(this.data[maxEnv - 2])) {
-      maxEnv -= this.pageSize;
-    }
-
-    if (minEnv && maxEnv && minEnv < maxEnv) {
-      let offset = minEnv;
-      let count = maxEnv - minEnv;
-
-      if (count == 200) {
-        this.emitService(offset, this.pageSize);
-        offset = offset + this.pageSize
-      }
-      this.emitService(offset, this.pageSize);
+    if (!this.objectHasntVoid(this.data[maxEnvT])) {
+      this.emitService(maxEnv, this.pageSize);
     }
 
   }, 0);
@@ -121,8 +110,6 @@ export class LazyLoadDirective implements OnInit, OnChanges {
       limit: limit
     })
   }
-
-  private registerOffsets = [{ offset: 0, limit: this.pageSize }];
 
   private serviceIsRegistred(params) {
     return this.registerOffsets.filter(p => p.offset == params.offset && p.limit == params.limit).length != 0;
@@ -205,6 +192,8 @@ export class LazyLoadDirective implements OnInit, OnChanges {
     }
 
     // console.log(forfrom, ' ( ', from, to, ' ) ', forTo)
+
+    this.EmitEnviroment.emit({ from: from, to: to })
 
     for (let i = forfrom; i < forTo; i++) {
       if (i >= from && i < to) {

@@ -17,6 +17,7 @@ import { appRoutes } from './app.routes';
 import { TableComponent } from './grid/table/table.component';
 import { TracerComponent } from './common/components/tracer/tracer.component';
 import { LazyLoadDirective } from './common/directives/lazy-load.directive';
+import { CallServiceComponent } from './call-service/call-service.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { LazyLoadDirective } from './common/directives/lazy-load.directive';
     HomeComponent,
     TableComponent,
     TracerComponent,
-    LazyLoadDirective
+    LazyLoadDirective,
+    CallServiceComponent
   ],
   imports: [
     BrowserModule,

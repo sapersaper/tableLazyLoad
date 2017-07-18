@@ -12,15 +12,16 @@
             </div>
             <div class="col-md-3">
                 <button class="btn btn-default" type="button" (click)="getSearch()">Search</button>
+                <button class="btn btn-default" type="button" (click)="getSearch(true)">Clean</button>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-9">
             <div *ngIf="recordingSearchLength">total Items Availables: {{recordingSearchLength}} - in memory {{recordingSearchResults.length}}</div>
-            <custom-table [data]="recordingSearchResults" [searchTerm]="searchTerm.value" tableFixed lazy-load [lazyLoadEnviroment]="50" (EmitService)="getService($event)">Loading...</custom-table>
+            <custom-table [data]="recordingSearchResults" [searchTerm]="searchTerm.value" tableFixed lazy-load [lazyLoadEnviroment]="50" (EmitService)="getService($event)" (EmitEnviroment)=getEnviroment($event)>Loading...</custom-table>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 height-fixed">
             <tracer [data]="inSearch" [length]="recordingSearchResults.length">Loading...</tracer>
         </div>
     </div>

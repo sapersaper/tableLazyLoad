@@ -18,39 +18,41 @@ export class GridComponent implements OnInit {
 
   @ViewChild('searchTerm') searchTerm;
   @ViewChild('from') from;
-  @ViewChild('count') count; 
+  @ViewChild('count') count;
 
-  constructor(private getSearchService: GetSearchService) {}
+  constructor(private getSearchService: GetSearchService) { }
 
   ngOnInit() {
     // this.startSearch(this.from.nativeElement.value, this.count.nativeElement.value)
   }
 
-  getSearch() {
-    this.startSearch(this.from.nativeElement.value, this.count.nativeElement.value)
+  getSearch(clean?: boolean) {
+    this.startSearch(this.from.nativeElement.value, this.count.nativeElement.value, clean)
   }
 
-
-
-  startSearch(offset, limit) {
+  startSearch(offset, limit, clean?: boolean) {
     this.inSearch = true;
-    this.getSearchService.getSearch(this.searchTerm.nativeElement.value, offset, limit )
-      .subscribe( 
-        (search: any) => {
-          this.inSearch = false;
-          this.recordingSearchResults = search.result;
-          this.recordingSearchLength = search.total_results_available;
-        },
-        err => {
-          this.inSearch = false;
-          console.log(err);
-        });
-}
+    this.getSearchService.getSearch(this.searchTerm.nativeElement.value, offset, limit)
+      .subscribe(
+      (search: any) => {
+        this.inSearch = false;
+        this.recordingSearchResults = clean ? [{title: 'tete'}] : search.result;
+        this.recordingSearchLength = search.total_results_available;
+      },
+      err => {
+        this.inSearch = false;
+        console.log(err);
+      });
+  }
 
-getService(params) {
-  console.log(params)
-  this.startSearch(params.offset, params.limit)
-}
+  getService(params) {
+    console.log(params)
+    this.startSearch(params.offset, params.limit)
+  }
+
+  getEnviroment(params) {
+    console.log('params Enviroment: ', params)
+  }
 
 
 }
